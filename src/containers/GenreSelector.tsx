@@ -1,18 +1,33 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import Section from '../components/Section';
 import GenreCard from '../components/GenreCard';
 import { metrics } from '../theme';
 import { GENRES } from '../constants';
+import { useNavigation } from '../hooks/useNavigation';
+import { selectGenreAction } from '../store/actionCreators';
+import { Genre } from '../types';
 
-const GenreSelector: React.FC = () => {
+export const GenreSelector: React.FC = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const selectGenre = useCallback(
+    (genre: Genre) => {
+      dispatch(selectGenreAction(genre));
+      navigation.navigate('playlist');
+    },
+    [dispatch]
+  );
+
   return (
     <Section title="Choose a genre">
       <View style={styles.list}>
-        {GENRES.map(({ id, name, fill }) => (
-          <View style={styles.item} key={id}>
-            <GenreCard title={name} fill={fill} />
+        {GENRES.map(genre => (
+          <View style={styles.item} key={genre.id}>
+            <GenreCard genre={genre} onPress={selectGenre} />
           </View>
         ))}
       </View>
@@ -31,5 +46,3 @@ const styles = StyleSheet.create({
     width: '50%',
   },
 });
-
-export default GenreSelector;

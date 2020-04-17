@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import Constants from 'expo-constants';
 
 import Title from '../components/Title';
-import GenreSelector from '../containers/GenreSelector';
+import { GenreSelector } from '../containers/GenreSelector';
 
-const HomePage: React.FC = () => {
+const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Title>Guess The Song</Title>
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomePage;
+export default HomeScreen;

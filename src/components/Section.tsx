@@ -5,13 +5,13 @@ import { metrics } from '../theme';
 import Title from './Title';
 
 interface Props {
-  title: string;
+  title?: string;
 }
 
 const Section: React.FC<Props> = ({ title, children }) => {
   return (
     <View style={styles.container}>
-      <Title>{title}</Title>
+      {title && <Title>{title}</Title>}
       <View style={styles.body}>{children}</View>
     </View>
   );
