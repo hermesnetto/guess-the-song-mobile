@@ -3,3 +3,8 @@ export type Genre = {
   fill: string;
   name: string;
 };
+
+export type Playlist = {
+  id: string;
+  name: string;
+};
