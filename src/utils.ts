@@ -25,3 +25,10 @@ export const lightenDarkenColor = (col: string, amt: number): string => {
 
   return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
 };
+
+export const buildUrlParams = (params: any[][]): string => {
+  return params.reduce((acc, [key, value]) => {
+    if (!acc) return `${key}=${value}`;
+    return `${acc}&${key}=${value}`;
+  }, '');
+};

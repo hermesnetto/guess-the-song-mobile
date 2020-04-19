@@ -91,7 +91,7 @@ function* fetchSong() {
     ];
     yield put(actions.setRoundSongsAction(songs));
     yield delay(2000);
-    // yield put(actions.showSongDetailsAction());
+    yield put(actions.showSongDetailsAction());
   } catch (e) {}
 }
 

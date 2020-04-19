@@ -20,7 +20,10 @@ export const EMPTY_SONG: Song = {
   name: '',
   album: {
     images: [],
+    name: '',
   },
   artists: [],
   preview_url: '',
 };
+
+export const SPOTIFY_API_URL = 'https://accounts.spotify.com/api';
