@@ -39,6 +39,10 @@ export type ShowSongDetailsAction = {
   type: typeof types.SHOW_SONG_DETAILS;
 };
 
+export type ShowCorrectSongAction = {
+  type: typeof types.SHOW_CORRECT_SONG;
+};
+
 export const selectGenreAction = (genre: Genre): SelectGenreAction => ({
   type: types.SELECT_GENRE,
   payload: { genre },
@@ -73,4 +77,8 @@ export const guessSongAction = (songId: string): GuessSongAction => ({
 
 export const showSongDetailsAction = (): ShowSongDetailsAction => ({
   type: types.SHOW_SONG_DETAILS,
+});
+
+export const showCorrectSongAction = (): ShowCorrectSongAction => ({
+  type: types.SHOW_CORRECT_SONG,
 });

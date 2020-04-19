@@ -30,7 +30,7 @@ export type Song = {
   preview_url: string;
 };
 
-export type RoundStates = 'not_tried' | 'missed' | 'hit';
+export type RoundStates = 'playing' | 'not_tried' | 'missed' | 'hit';
 
 export type Round = {
   songs: Song[];

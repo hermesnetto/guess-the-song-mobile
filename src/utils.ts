@@ -1,3 +1,5 @@
+import { Song } from './types';
+
 export const lightenDarkenColor = (col: string, amt: number): string => {
   let usePound = false;
 
@@ -43,4 +45,21 @@ export const getRandomInt = (min: number, max: number): number => {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
+};
+
+export const getSelectedTrack = (
+  songs: Song[],
+  index: number,
+  calls: number,
+  limit: number
+): Song => {
+  if (calls === limit) {
+    return songs[0];
+  }
+
+  if (songs[index].preview_url) {
+    return songs[index];
+  }
+
+  return getSelectedTrack(songs, getRandomInt(0, 4), calls + 1, limit);
 };

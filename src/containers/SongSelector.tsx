@@ -16,6 +16,7 @@ const getOptionState = (
 ): 'success' | 'error' | undefined => {
   switch (state) {
     case 'hit':
+    case 'not_tried':
       if (song.id === selected.id) return 'success';
       return undefined;
     case 'missed':
@@ -36,7 +37,11 @@ export const SongSelector: React.FC = () => {
   const guessed = useSelector(guessedSongSelector);
   const dispatch = useDispatch();
 
-  const guessSong = (songId: string) => dispatch(guessSongAction(songId));
+  const guessSong = (songId: string) => {
+    if (roundState === 'playing') {
+      dispatch(guessSongAction(songId));
+    }
+  };
 
   return (
     <View style={styles.list}>

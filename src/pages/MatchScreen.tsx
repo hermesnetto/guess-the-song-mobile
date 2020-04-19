@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { Audio } from 'expo-av';
 
 import { Header } from '../components/Header';
 import { Section } from '../components/Section';
@@ -11,6 +12,7 @@ import {
   playlistSelector,
   matchViewSelector,
   pointsSelector,
+  roundSelector,
 } from '../store/selectors';
 import { startGameAction, fetchAndPlayRoundAction } from '../store/actionCreators';
 import { useSpotifyToken } from '../hooks/useSpotifyToken';
@@ -21,6 +23,7 @@ export const MatchScreen: React.FC = () => {
   const genre = useSelector(genreSelector);
   const view = useSelector(matchViewSelector);
   const points = useSelector(pointsSelector);
+  const round = useSelector(roundSelector);
   const { token } = useSpotifyToken();
 
   const isPlayingView = view === 'playing';
@@ -32,10 +35,25 @@ export const MatchScreen: React.FC = () => {
     dispatch(fetchAndPlayRoundAction(genre.id, token));
   }, [genre, token]);
 
+  useEffect(() => {
+    if (round.songs.length) {
+      (async () => {
+        const sound = new Audio.Sound();
+        try {
+          await sound.loadAsync({ uri: round.songs[0].preview_url });
+          await sound.playAsync();
+
+          setTimeout(async () => {
+            await sound.stopAsync();
+          }, 3000);
+        } catch (error) {}
+      })();
+    }
+  }, [round.songs]);
+
   return (
     <View style={styles.container}>
       <Header title={genre.name} fill={genre.fill} right={pointsHeader} />
-
       <Section title={playlist.name}>
         {isPlayingView ? <SongSelector /> : <View />}
         {isDetailsView ? <SongDetails /> : <View />}
