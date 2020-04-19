@@ -4,11 +4,6 @@ export type Genre = {
   name: string;
 };
 
-export type Playlist = {
-  id: string;
-  name: string;
-};
-
 export type AlbumImage = {
   height: number;
   url: string;

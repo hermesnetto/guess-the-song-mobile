@@ -9,7 +9,6 @@ import { SongSelector } from '../containers/SongSelector';
 import { SongDetails } from '../containers/SongDetails';
 import {
   genreSelector,
-  playlistSelector,
   matchViewSelector,
   pointsSelector,
   roundSelector,
@@ -19,7 +18,6 @@ import { useSpotifyToken } from '../hooks/useSpotifyToken';
 
 export const MatchScreen: React.FC = () => {
   const dispatch = useDispatch();
-  const playlist = useSelector(playlistSelector);
   const genre = useSelector(genreSelector);
   const view = useSelector(matchViewSelector);
   const points = useSelector(pointsSelector);
@@ -54,7 +52,7 @@ export const MatchScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Header title={genre.name} fill={genre.fill} right={pointsHeader} />
-      <Section title={playlist.name}>
+      <Section title={genre.name}>
         {isPlayingView ? <SongSelector /> : <View />}
         {isDetailsView ? <SongDetails /> : <View />}
       </Section>

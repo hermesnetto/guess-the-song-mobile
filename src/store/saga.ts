@@ -3,6 +3,7 @@ import { put, delay, takeLatest } from 'redux-saga/effects';
 import * as types from './actionTypes';
 import * as actions from './actionCreators';
 import { getRandomFloat, buildUrlParams } from '../utils';
+import { SONG_DURATION, WAIT_BEFORE_DETAILS } from '../constants';
 
 function* fetchSongs(action: actions.FetchAndPlayRoundAction) {
   const { genre, token } = action.payload;
@@ -31,10 +32,10 @@ function* fetchSongs(action: actions.FetchAndPlayRoundAction) {
       // show and play song
       yield put(actions.setRoundSongsAction(data.tracks));
       // guessing time is up
-      yield delay(3000);
+      yield delay(SONG_DURATION);
       yield put(actions.showCorrectSongAction());
       // show song details
-      yield delay(2000);
+      yield delay(WAIT_BEFORE_DETAILS);
       yield put(actions.showSongDetailsAction());
     } else {
       // error

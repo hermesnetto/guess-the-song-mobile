@@ -4,12 +4,10 @@ import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 import { Transition } from 'react-native-reanimated';
 
 import { HomeScreen } from './pages/HomeScreen';
-import { PlaylistScreen } from './pages/PlaylistScreen';
 import { MatchScreen } from './pages/MatchScreen';
 
 const screens = {
   home: { screen: HomeScreen },
-  playlist: { screen: PlaylistScreen },
   match: { screen: MatchScreen },
 };
 

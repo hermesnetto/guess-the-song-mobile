@@ -1,10 +1,8 @@
 import { State } from './reducer';
-import { Genre, Playlist, Song, Round } from '../types';
+import { Genre, Song, Round } from '../types';
 import { EMPTY_SONG } from '../constants';
 
 export const genreSelector = (state: State): Genre => state.genre;
-
-export const playlistSelector = (state: State): Playlist => state.playlist;
 
 export const matchViewSelector = (state: State): 'playing' | 'details' => state.game.view;
 

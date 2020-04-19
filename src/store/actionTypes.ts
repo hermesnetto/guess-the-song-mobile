@@ -1,5 +1,4 @@
 export const SELECT_GENRE = 'global/SELECT_GENRE';
-export const SELECT_PLAYLIST = 'global/SELECT_PLAYLIST';
 
 export const START_GAME = 'match/START_GAME';
 export const FETCH_AND_PLAY_ROUND = 'match/FETCH_AND_PLAY_ROUND';

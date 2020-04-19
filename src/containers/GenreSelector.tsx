@@ -17,7 +17,7 @@ export const GenreSelector: React.FC = () => {
   const selectGenre = useCallback(
     (genre: Genre) => {
       dispatch(selectGenreAction(genre));
-      navigation.navigate('playlist');
+      navigation.navigate('match');
     },
     [dispatch]
   );
