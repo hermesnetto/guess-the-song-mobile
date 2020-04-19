@@ -2,99 +2,40 @@ import { put, delay, takeLatest } from 'redux-saga/effects';
 
 import * as types from './actionTypes';
 import * as actions from './actionCreators';
-import { Song } from '../types';
+import { getRandomFloat, buildUrlParams } from '../utils';
 
-function* fetchSong() {
+function* fetchSongs(action: actions.FetchAndPlayRoundAction) {
+  const { genre, token } = action.payload;
+
   try {
-    //  const user = yield call(Api.fetchUser, action.payload.userId);
-    const songs: Song[] = [
-      {
-        id: 'a',
-        name: 'Back in black',
-        album: {
-          name: 'Foo bar',
-          images: [
-            {
-              url: 'https://i.scdn.co/image/ab67616d00001e0246f35168612cbb305def7458',
-              height: 200,
-              width: 200,
-            },
-          ],
-        },
-        artists: [
-          {
-            name: 'AC/DC',
-          },
-        ],
-        preview_url: '',
-      },
-      {
-        id: 'b',
-        name: 'Return of the loving dead',
-        album: {
-          name: 'Foo bar',
-          images: [
-            {
-              url: 'https://i.scdn.co/image/ab67616d00001e0246f35168612cbb305def7458',
-              height: 200,
-              width: 200,
-            },
-          ],
-        },
-        artists: [
-          {
-            name: 'The Nekromantix',
-          },
-        ],
-        preview_url: '',
-      },
-      {
-        id: 'c',
-        name: 'Vampiria',
-        album: {
-          name: 'Foo bar',
-          images: [
-            {
-              url: 'https://i.scdn.co/image/ab67616d00001e0246f35168612cbb305def7458',
-              height: 200,
-              width: 200,
-            },
-          ],
-        },
-        artists: [
-          {
-            name: 'Spellmoon',
-          },
-        ],
-        preview_url: '',
-      },
-      {
-        id: 'd',
-        name: 'Better together',
-        album: {
-          name: 'Foo bar',
-          images: [
-            {
-              url: 'https://i.scdn.co/image/ab67616d00001e0246f35168612cbb305def7458',
-              height: 200,
-              width: 200,
-            },
-          ],
-        },
-        artists: [
-          {
-            name: 'Jack Johnson',
-          },
-        ],
-        preview_url: '',
-      },
-    ];
-    yield put(actions.setRoundSongsAction(songs));
-    yield delay(2000);
-    yield put(actions.showSongDetailsAction());
+    const params = buildUrlParams([
+      ['limit', 4],
+      ['seed_genres', genre],
+      ['min_acousticness', getRandomFloat(0.0, 0.5)],
+      ['min_danceability', getRandomFloat(0.0, 0.5)],
+      ['min_energy', getRandomFloat(0.0, 0.5)],
+      ['min_instrumentalness', getRandomFloat(0.0, 0.5)],
+      ['min_valence', getRandomFloat(0.0, 0.5)],
+    ]);
+
+    const data = yield fetch(`https://api.spotify.com/v1/recommendations?${params}`, {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Bearer ${token || ''}`,
+        'Content-Type': 'application/json',
+      }),
+    }).then(res => res.json());
+
+    if (!data.error) {
+      yield put(actions.setRoundSongsAction(data.tracks));
+      // yield delay(2000);
+      // yield put(actions.showSongDetailsAction());
+    } else {
+      // error
+    }
   } catch (e) {}
 }
 
 export function* saga() {
-  yield takeLatest(types.FETCH_AND_PLAY_ROUND, fetchSong);
+  yield takeLatest(types.FETCH_AND_PLAY_ROUND, fetchSongs);
 }

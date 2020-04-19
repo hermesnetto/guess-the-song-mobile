@@ -33,9 +33,9 @@ const App: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
     color: colors.text,
     justifyContent: 'center',
+    backgroundColor: colors.background,
     paddingHorizontal: metrics.sideMargin,
   },
   loadingText: {

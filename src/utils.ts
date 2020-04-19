@@ -32,3 +32,15 @@ export const buildUrlParams = (params: any[][]): string => {
     return `${acc}&${key}=${value}`;
   }, '');
 };
+
+export const getRandomFloat = (min: number, max: number): number => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.random() * (max - min) + min;
+};
+
+export const getRandomInt = (min: number, max: number): number => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+};

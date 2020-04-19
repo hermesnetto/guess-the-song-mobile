@@ -13,6 +13,10 @@ export type SelectPlaylistAction = {
 
 export type FetchAndPlayRoundAction = {
   type: typeof types.FETCH_AND_PLAY_ROUND;
+  payload: {
+    genre: string;
+    token: string | null;
+  };
 };
 
 export type SetRoundSongsAction = {
@@ -45,8 +49,12 @@ export const selectPlaylistAction = (playlist: Playlist): SelectPlaylistAction =
   payload: { playlist },
 });
 
-export const fetchAndPlayRoundAction = (): FetchAndPlayRoundAction => ({
+export const fetchAndPlayRoundAction = (
+  genre: string,
+  token: string | null
+): FetchAndPlayRoundAction => ({
   type: types.FETCH_AND_PLAY_ROUND,
+  payload: { genre, token },
 });
 
 export const setRoundSongsAction = (songs: Song[]): SetRoundSongsAction => ({

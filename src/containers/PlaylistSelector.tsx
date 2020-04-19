@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Option } from '../components/Option';
 import { metrics } from '../theme';
 import { selectPlaylistAction } from '../store/actionCreators';
-import { playlistSelector } from '../store/selectors';
+import { playlistSelector, genreSelector } from '../store/selectors';
+import { useFetchPlaylists } from '../hooks/useFetchPlaylists';
 import { Playlist } from '../types';
+import { useSpotifyToken } from '../hooks/useSpotifyToken';
 
 const getSelectedState = (selected: Playlist, current: Playlist): 'success' | undefined => {
   return current.id === selected.id ? 'success' : undefined;
@@ -15,22 +17,22 @@ const getSelectedState = (selected: Playlist, current: Playlist): 'success' | un
 export const PlaylistSelector: React.FC = () => {
   const dispatch = useDispatch();
   const selectedPlaylist = useSelector(playlistSelector);
+  const genre = useSelector(genreSelector);
+  const { token } = useSpotifyToken();
+  const [playlists, fetchAndSetPlaylists] = useFetchPlaylists();
   const randomPlaylist = {
     id: 'random',
     name: 'Random',
   };
-  const [playlists] = useState<Playlist[]>([
-    { id: 'jazz-brasileiro', name: 'Jazz brasileiro' },
-    { id: 'jazz-relax', name: 'Jazz relax' },
-    { id: 'jazz-x-press', name: 'Jazz X-Press' },
-    { id: 'coffee-table-jazz', name: 'Coffee table Jazz' },
-  ]);
-
   const stateRandom = getSelectedState(selectedPlaylist, randomPlaylist);
 
   const selectPlaylist = (playlist: Playlist) => {
     dispatch(selectPlaylistAction(playlist));
   };
+
+  useEffect(() => {
+    fetchAndSetPlaylists(genre.name, token);
+  }, [genre, token]);
 
   return (
     <View style={styles.list}>

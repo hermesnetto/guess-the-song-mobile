@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { Header } from '../components/Header';
@@ -21,9 +21,13 @@ export const PlaylistScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Header title="Playlist" fill={genre.fill} />
+
       <Section title={genre.name}>
-        <PlaylistSelector />
+        <ScrollView>
+          <PlaylistSelector />
+        </ScrollView>
       </Section>
+
       {playlist.id !== '' && (
         <Section>
           <Button title="Start Game" size="lg" onPress={startGame} />

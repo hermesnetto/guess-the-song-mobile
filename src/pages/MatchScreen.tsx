@@ -13,6 +13,7 @@ import {
   pointsSelector,
 } from '../store/selectors';
 import { startGameAction, fetchAndPlayRoundAction } from '../store/actionCreators';
+import { useSpotifyToken } from '../hooks/useSpotifyToken';
 
 export const MatchScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export const MatchScreen: React.FC = () => {
   const genre = useSelector(genreSelector);
   const view = useSelector(matchViewSelector);
   const points = useSelector(pointsSelector);
+  const { token } = useSpotifyToken();
 
   const isPlayingView = view === 'playing';
   const isDetailsView = view === 'details';
@@ -27,8 +29,8 @@ export const MatchScreen: React.FC = () => {
 
   useEffect(() => {
     dispatch(startGameAction());
-    dispatch(fetchAndPlayRoundAction());
-  }, []);
+    dispatch(fetchAndPlayRoundAction(genre.id, token));
+  }, [genre, token]);
 
   return (
     <View style={styles.container}>

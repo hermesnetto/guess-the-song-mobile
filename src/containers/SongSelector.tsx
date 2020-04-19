@@ -31,10 +31,10 @@ const getOptionState = (
 };
 
 export const SongSelector: React.FC = () => {
-  const dispatch = useDispatch();
   const { songs, state: roundState } = useSelector(roundSelector);
   const selected = useSelector(selectedSongSelector);
   const guessed = useSelector(guessedSongSelector);
+  const dispatch = useDispatch();
 
   const guessSong = (songId: string) => dispatch(guessSongAction(songId));
 
