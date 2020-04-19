@@ -2,31 +2,15 @@ import { put, delay, takeLatest } from 'redux-saga/effects';
 
 import * as types from './actionTypes';
 import * as actions from './actionCreators';
-import { getRandomFloat, buildUrlParams } from '../utils';
+import * as Api from '../api';
+
 import { SONG_DURATION, WAIT_BEFORE_DETAILS } from '../constants';
 
 function* fetchSongs(action: actions.FetchAndPlayRoundAction) {
   const { genre, token } = action.payload;
 
   try {
-    const params = buildUrlParams([
-      ['limit', 4],
-      ['market', 'BR'], // Get market dinamically
-      ['seed_genres', genre],
-      ['min_acousticness', getRandomFloat(0.0, 0.5)],
-      ['min_danceability', getRandomFloat(0.0, 0.5)],
-      ['min_energy', getRandomFloat(0.0, 0.5)],
-      ['min_instrumentalness', getRandomFloat(0.0, 0.5)],
-      ['min_valence', getRandomFloat(0.0, 0.5)],
-    ]);
-
-    const data = yield fetch(`https://api.spotify.com/v1/recommendations?${params}`, {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: `Bearer ${token || ''}`,
-        'Content-Type': 'application/json',
-      }),
-    }).then(res => res.json());
+    const data = yield Api.fetchRoundSongs(genre, token);
 
     if (!data.error) {
       // show and play song
@@ -38,7 +22,7 @@ function* fetchSongs(action: actions.FetchAndPlayRoundAction) {
       yield delay(WAIT_BEFORE_DETAILS);
       yield put(actions.showSongDetailsAction());
     } else {
-      // error
+      /** @TODO Add proper error handling */
     }
   } catch (e) {}
 }
