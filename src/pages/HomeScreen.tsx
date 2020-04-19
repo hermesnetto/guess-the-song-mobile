@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 import Title from '../components/Title';
 import { GenreSelector } from '../containers/GenreSelector';
 
-const HomeScreen: React.FC = () => {
+export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Title>Guess The Song</Title>
@@ -20,5 +20,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default HomeScreen;

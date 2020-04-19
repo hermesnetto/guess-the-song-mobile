@@ -6,17 +6,23 @@ import { lightenDarkenColor } from '../utils';
 type Props = {
   title: string;
   size?: 'sm' | 'md' | 'lg';
+  theme?: 'primary' | 'secondary';
   onPress?: () => void;
 };
 
-export const Button: React.FC<Props> = ({ title, size = 'md', onPress }) => {
+export const Button: React.FC<Props> = ({ title, size = 'md', theme = 'primary', onPress }) => {
   const buttonSizes = {
     sm: styles.buttonSmall,
     md: styles.buttonMedium,
     lg: styles.buttonLarge,
   };
+  const buttonThemes = {
+    primary: styles.buttonPrimary,
+    secondary: styles.buttonSecondary,
+  };
   const buttonStyles = {
     ...styles.button,
+    ...(buttonThemes[theme] || buttonThemes.primary),
     ...(buttonSizes[size] || buttonSizes.md),
   };
   const textSizes = {
@@ -39,12 +45,18 @@ export const Button: React.FC<Props> = ({ title, size = 'md', onPress }) => {
 const styles = StyleSheet.create({
   button: {
     borderRadius: metrics.baseRadius,
-    backgroundColor: colors.primary,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomColor: lightenDarkenColor(colors.primary, -40),
     borderBottomWidth: 5,
+  },
+  buttonPrimary: {
+    backgroundColor: colors.primary,
+    borderBottomColor: lightenDarkenColor(colors.primary, -40),
+  },
+  buttonSecondary: {
+    backgroundColor: colors.secondary,
+    borderBottomColor: lightenDarkenColor(colors.secondary, -40),
   },
   buttonSmall: {
     height: 35,

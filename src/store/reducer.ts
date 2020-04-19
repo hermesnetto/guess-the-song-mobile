@@ -1,10 +1,25 @@
 import * as types from './actionTypes';
 import * as actions from './actionCreators';
-import { Genre, Playlist } from '../types';
+import { Genre, Playlist, Round } from '../types';
+
+export type Game = {
+  rounds: Round[];
+  round: number;
+  points: number;
+  view: 'playing' | 'details';
+};
 
 export type State = {
   genre: Genre;
   playlist: Playlist;
+  game: Game;
+};
+
+const initialGame: Game = {
+  rounds: [],
+  round: 0,
+  points: 0,
+  view: 'playing',
 };
 
 export const initialState: State = {
@@ -17,9 +32,16 @@ export const initialState: State = {
     id: 'random',
     name: 'Random',
   },
+  game: initialGame,
 };
 
-export type Action = actions.SelectGenreAction | actions.SelectPlaylistAction;
+export type Action =
+  | actions.SelectGenreAction
+  | actions.SelectPlaylistAction
+  | actions.StartGameAction
+  | actions.SetRoundSongsAction
+  | actions.GuessSongAction
+  | actions.ShowSongDetailsAction;
 
 export function reducer(state: State = initialState, action: Action): State {
   switch (action.type) {
@@ -28,6 +50,53 @@ export function reducer(state: State = initialState, action: Action): State {
 
     case types.SELECT_PLAYLIST:
       return { ...state, playlist: action.payload.playlist };
+
+    case types.START_GAME:
+      return { ...state, game: initialGame };
+
+    case types.SET_ROUND_SONGS:
+      return {
+        ...state,
+        game: {
+          ...state.game,
+          rounds: [
+            ...state.game.rounds,
+            {
+              songs: action.payload.songs,
+              selectedId: action.payload.songs[0].id,
+              guessedId: '',
+              state: 'not_tried',
+            },
+          ],
+          round: state.game.round + 1,
+          view: 'playing',
+        },
+      };
+
+    case types.GUESS_SONG:
+      let hasHit = false;
+
+      const rounds: Round[] = state.game.rounds.map((round: Round, index) => {
+        if (index !== state.game.round - 1) return round;
+        hasHit = action.payload.songId === round.selectedId;
+        return {
+          ...round,
+          guessedId: action.payload.songId,
+          state: hasHit ? 'hit' : 'missed',
+        };
+      });
+
+      return {
+        ...state,
+        game: {
+          ...state.game,
+          points: hasHit ? state.game.points + 1 : state.game.points,
+          rounds,
+        },
+      };
+
+    case types.SHOW_SONG_DETAILS:
+      return { ...state, game: { ...state.game, view: 'details' } };
 
     default:
       return state;

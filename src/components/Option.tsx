@@ -6,23 +6,22 @@ import { lightenDarkenColor } from '../utils';
 
 interface Props {
   title: string;
-  fill?: string;
+  state?: 'success' | 'error';
 }
 
-export const Option: React.FC<Props> = ({ title, fill }) => {
+export const Option: React.FC<Props> = ({ title, state }) => {
   let containerStyles: ViewStyle = { ...styles.container };
   let titleStyles: TextStyle = { ...styles.title };
 
-  if (fill) {
+  if (state && (state === 'success' || state === 'error')) {
+    const fillColor = state === 'success' ? colors.success : colors.error;
+
     containerStyles = {
       ...containerStyles,
-      backgroundColor: fill,
-      borderBottomColor: lightenDarkenColor(fill, -40),
+      backgroundColor: fillColor,
+      borderBottomColor: lightenDarkenColor(fillColor, -40),
     };
-    titleStyles = {
-      ...titleStyles,
-      color: '#fff',
-    };
+    titleStyles = { ...titleStyles, color: '#fff' };
   }
 
   return (

@@ -3,22 +3,18 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Option } from '../components/Option';
-import { metrics, colors } from '../theme';
+import { metrics } from '../theme';
 import { selectPlaylistAction } from '../store/actionCreators';
-import { selectPlaylist } from '../store/selectors';
+import { playlistSelector } from '../store/selectors';
+import { Playlist } from '../types';
 
-type Playlist = {
-  id: string;
-  name: string;
-};
-
-const getSelectedFill = (selected: Playlist, current: Playlist): string | undefined => {
-  return current.id === selected.id ? colors.success : undefined;
+const getSelectedState = (selected: Playlist, current: Playlist): 'success' | undefined => {
+  return current.id === selected.id ? 'success' : undefined;
 };
 
 export const PlaylistSelector: React.FC = () => {
   const dispatch = useDispatch();
-  const selectedPlaylist = useSelector(selectPlaylist);
+  const selectedPlaylist = useSelector(playlistSelector);
   const randomPlaylist = {
     id: 'random',
     name: 'Random',
@@ -30,9 +26,9 @@ export const PlaylistSelector: React.FC = () => {
     { id: 'coffee-table-jazz', name: 'Coffee table Jazz' },
   ]);
 
-  const randomFill = getSelectedFill(selectedPlaylist, randomPlaylist);
+  const stateRandom = getSelectedState(selectedPlaylist, randomPlaylist);
 
-  const handleSelectPlaylist = (playlist: Playlist) => {
+  const selectPlaylist = (playlist: Playlist) => {
     dispatch(selectPlaylistAction(playlist));
   };
 
@@ -41,22 +37,22 @@ export const PlaylistSelector: React.FC = () => {
       <TouchableOpacity
         style={styles.item}
         activeOpacity={1}
-        onPress={() => handleSelectPlaylist(randomPlaylist)}
+        onPress={() => selectPlaylist(randomPlaylist)}
       >
-        <Option title={randomPlaylist.name} fill={randomFill} />
+        <Option title={randomPlaylist.name} state={stateRandom} />
       </TouchableOpacity>
 
       {playlists.map(playlist => {
-        let fill = getSelectedFill(selectedPlaylist, playlist);
+        let state = getSelectedState(selectedPlaylist, playlist);
 
         return (
           <TouchableOpacity
             style={styles.item}
             key={playlist.id}
             activeOpacity={1}
-            onPress={() => handleSelectPlaylist(playlist)}
+            onPress={() => selectPlaylist(playlist)}
           >
-            <Option title={playlist.name} fill={fill} />
+            <Option title={playlist.name} state={state} />
           </TouchableOpacity>
         );
       })}

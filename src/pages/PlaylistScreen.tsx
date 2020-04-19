@@ -6,11 +6,17 @@ import { Header } from '../components/Header';
 import { Section } from '../components/Section';
 import { PlaylistSelector } from '../containers/PlaylistSelector';
 import { Button } from '../components/Button';
-import { selectGenre, selectPlaylist } from '../store/selectors';
+import { genreSelector, playlistSelector } from '../store/selectors';
+import { useNavigation } from '../hooks/useNavigation';
 
-const PlaylistScreen: React.FC = () => {
-  const genre = useSelector(selectGenre);
-  const playlist = useSelector(selectPlaylist);
+export const PlaylistScreen: React.FC = () => {
+  const genre = useSelector(genreSelector);
+  const playlist = useSelector(playlistSelector);
+  const navigation = useNavigation();
+
+  const startGame = () => {
+    navigation.navigate('match');
+  };
 
   return (
     <View style={styles.container}>
@@ -20,7 +26,7 @@ const PlaylistScreen: React.FC = () => {
       </Section>
       {playlist.id !== '' && (
         <Section>
-          <Button title="Start Game" size="lg" />
+          <Button title="Start Game" size="lg" onPress={startGame} />
         </Section>
       )}
     </View>
@@ -32,5 +38,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default PlaylistScreen;
