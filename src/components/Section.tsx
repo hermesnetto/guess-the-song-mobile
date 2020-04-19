@@ -8,7 +8,7 @@ interface Props {
   title?: string;
 }
 
-const Section: React.FC<Props> = ({ title, children }) => {
+export const Section: React.FC<Props> = ({ title, children }) => {
   return (
     <View style={styles.container}>
       {title && <Title>{title}</Title>}
@@ -25,5 +25,3 @@ const styles = StyleSheet.create({
     marginTop: metrics.baseMargin,
   },
 });
-
-export default Section;

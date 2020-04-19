@@ -1,14 +1,16 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { Header } from '../components/Header';
-import Section from '../components/Section';
+import { Section } from '../components/Section';
 import { PlaylistSelector } from '../containers/PlaylistSelector';
-import { selectGenre } from '../store/selectors';
+import { Button } from '../components/Button';
+import { selectGenre, selectPlaylist } from '../store/selectors';
 
 const PlaylistScreen: React.FC = () => {
   const genre = useSelector(selectGenre);
+  const playlist = useSelector(selectPlaylist);
 
   return (
     <View style={styles.container}>
@@ -16,6 +18,11 @@ const PlaylistScreen: React.FC = () => {
       <Section title={genre.name}>
         <PlaylistSelector />
       </Section>
+      {playlist.id !== '' && (
+        <Section>
+          <Button title="Start Game" size="lg" />
+        </Section>
+      )}
     </View>
   );
 };

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import Section from '../components/Section';
+import { Section } from '../components/Section';
 import GenreCard from '../components/GenreCard';
 import { metrics } from '../theme';
 import { GENRES } from '../constants';

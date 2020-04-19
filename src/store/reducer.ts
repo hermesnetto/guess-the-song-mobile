@@ -14,8 +14,8 @@ export const initialState: State = {
     name: '',
   },
   playlist: {
-    id: '',
-    name: '',
+    id: 'random',
+    name: 'Random',
   },
 };
 
