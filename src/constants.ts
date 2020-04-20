@@ -26,7 +26,7 @@ export const EMPTY_SONG: Song = {
   preview_url: '',
 };
 
-export const SONG_DURATION = 3000;
-export const WAIT_BEFORE_DETAILS = 3000;
+export const SONG_DURATION = 5000;
+export const WAIT_BEFORE_DETAILS = 1500;
 
 export const SPOTIFY_API_URL = 'https://accounts.spotify.com/api';

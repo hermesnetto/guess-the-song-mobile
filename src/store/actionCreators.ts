@@ -11,16 +11,13 @@ export type FetchAndPlayRoundAction = {
   payload: {
     genre: string;
     token: string | null;
+    roundIndex: number;
   };
 };
 
 export type SetRoundSongsAction = {
   type: typeof types.SET_ROUND_SONGS;
   payload: { songs: Song[] };
-};
-
-export type StartGameAction = {
-  type: typeof types.START_GAME;
 };
 
 export type GuessSongAction = {
@@ -30,13 +27,10 @@ export type GuessSongAction = {
   };
 };
 
-export type ShowSongDetailsAction = {
-  type: typeof types.SHOW_SONG_DETAILS;
-};
-
-export type ShowCorrectSongAction = {
-  type: typeof types.SHOW_CORRECT_SONG;
-};
+export type StartGameAction = { type: typeof types.START_GAME };
+export type ShowSongDetailsAction = { type: typeof types.SHOW_SONG_DETAILS };
+export type ShowCorrectSongAction = { type: typeof types.SHOW_CORRECT_SONG };
+export type ShowMatchResultsAction = { type: typeof types.SHOW_MATCH_RESULTS };
 
 export const selectGenreAction = (genre: Genre): SelectGenreAction => ({
   type: types.SELECT_GENRE,
@@ -45,10 +39,11 @@ export const selectGenreAction = (genre: Genre): SelectGenreAction => ({
 
 export const fetchAndPlayRoundAction = (
   genre: string,
-  token: string | null
+  token: string | null,
+  roundIndex: number
 ): FetchAndPlayRoundAction => ({
   type: types.FETCH_AND_PLAY_ROUND,
-  payload: { genre, token },
+  payload: { genre, token, roundIndex },
 });
 
 export const setRoundSongsAction = (songs: Song[]): SetRoundSongsAction => ({
@@ -71,4 +66,8 @@ export const showSongDetailsAction = (): ShowSongDetailsAction => ({
 
 export const showCorrectSongAction = (): ShowCorrectSongAction => ({
   type: types.SHOW_CORRECT_SONG,
+});
+
+export const showMatchResultsAction = (): ShowMatchResultsAction => ({
+  type: types.SHOW_MATCH_RESULTS,
 });

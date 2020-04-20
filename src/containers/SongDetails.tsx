@@ -15,7 +15,7 @@ export const SongDetails: React.FC = () => {
   const genre = useSelector(genreSelector);
   const { token } = useSpotifyToken();
 
-  const playNextSong = () => dispatch(fetchAndPlayRoundAction(genre.id, token));
+  const playNextSong = () => dispatch(fetchAndPlayRoundAction(genre.id, token, 1));
 
   return (
     <View>

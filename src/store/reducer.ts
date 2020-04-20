@@ -7,7 +7,7 @@ export type Game = {
   rounds: Round[];
   round: number;
   points: number;
-  view: 'playing' | 'details';
+  view: 'playing' | 'details' | 'results';
 };
 
 export type State = {
@@ -37,7 +37,8 @@ export type Action =
   | actions.SetRoundSongsAction
   | actions.GuessSongAction
   | actions.ShowSongDetailsAction
-  | actions.ShowCorrectSongAction;
+  | actions.ShowCorrectSongAction
+  | actions.ShowMatchResultsAction;
 
 export function reducer(state: State = initialState, action: Action): State {
   switch (action.type) {
@@ -105,6 +106,9 @@ export function reducer(state: State = initialState, action: Action): State {
 
     case types.SHOW_SONG_DETAILS:
       return { ...state, game: { ...state.game, view: 'details' } };
+
+    case types.SHOW_MATCH_RESULTS:
+      return { ...state, game: { ...state.game, view: 'results' } };
 
     default:
       return state;

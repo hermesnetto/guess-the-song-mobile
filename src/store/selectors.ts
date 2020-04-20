@@ -3,10 +3,11 @@ import { Genre, Song, Round } from '../types';
 import { EMPTY_SONG } from '../constants';
 
 export const genreSelector = (state: State): Genre => state.genre;
-
-export const matchViewSelector = (state: State): 'playing' | 'details' => state.game.view;
-
+export const matchViewSelector = (state: State): 'playing' | 'details' | 'results' =>
+  state.game.view;
 export const pointsSelector = (state: State): number => state.game.points;
+export const roundIndexSelector = (state: State): number => state.game.round;
+export const allRoundsSelector = (state: State): Round[] => state.game.rounds;
 
 export const roundSelector = (state: State): Round => {
   if (!state.game.rounds.length)

@@ -7,6 +7,7 @@ import { metrics } from '../theme';
 import { roundSelector, selectedSongSelector, guessedSongSelector } from '../store/selectors';
 import { Song, RoundStates } from '../types';
 import { guessSongAction } from '../store/actionCreators';
+import { select } from 'redux-saga/effects';
 
 const getOptionState = (
   song: Song,
@@ -14,20 +15,31 @@ const getOptionState = (
   guessed: Song,
   state: RoundStates
 ): 'success' | 'error' | undefined => {
-  switch (state) {
-    case 'hit':
-    case 'not_tried':
-      if (song.id === selected.id) return 'success';
-      return undefined;
-    case 'missed':
-      if (song.id === guessed.id) {
-        return 'error';
-      } else if (song.id === selected.id) {
+  if (state === 'playing') return undefined;
+
+  if (state === 'not_tried') {
+    if (song.id === selected.id) {
+      return 'success';
+    }
+    return undefined;
+  }
+
+  if (state === 'missed') {
+    if (song.id === guessed.id) {
+      return 'error';
+    } else {
+      if (song.id === selected.id) {
         return 'success';
       }
       return undefined;
-    default:
-      return undefined;
+    }
+  }
+
+  if (state === 'hit') {
+    if (song.id === guessed.id) {
+      return 'success';
+    }
+    return undefined;
   }
 };
 
